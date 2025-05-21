@@ -8,12 +8,27 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        sync: false
+        fromDatabase:
+          name: medusa-db
+          property: connectionString
       - key: REDIS_URL
-        sync: false
+        fromService:
+          type: redis
+          name: medusa-redis
+          property: connectionString
       - key: JWT_SECRET
         generateValue: true
       - key: COOKIE_SECRET
         generateValue: true
       - key: PORT
-        value: 9000 
+        value: 9000
+
+  - type: postgres
+    name: medusa-db
+    plan: free
+    ipAllowList: []
+
+  - type: redis
+    name: medusa-redis
+    plan: free
+    ipAllowList: [] 
